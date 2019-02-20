@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package songservice;
+
+service SongService {
+    rpc Add(AddSongRequest) returns(Empty) {}
+    rpc Update(UpdateSongRequest) returns(Empty) {}
+    rpc Get(GetSongRequest) returns(GetSongResponse) {}
+    rpc Delete(DeleteSongRequest) returns(Empty) {}
+}
+
+message AddSongRequest {
+    Song newSong = 1;
+}
+
+message UpdateSongRequest {
+    string songID = 1;
+    Song updatedSong = 2;
+}
+
+message GetSongRequest {
+    string name = 1;
+    repeated string artists = 2;
+    string songID = 3;
+}
+
+message GetSongResponse {
+    message GetSongResult {
+        Song song = 1;
+        string songID = 2;
+    }
+    repeated GetSongResult result = 1;
+}
+
+message DeleteSongRequest {
+    string SongID = 1;
+}
+
+message Song {
+    string name = 1;
+    repeated string artists = 2;
+    bytes audio = 3;
+}
+
+message Empty {}
