@@ -24,6 +24,7 @@ func main() {
 
 	pb.RegisterSongServiceServer(s, song.SongService{})
 
+	fmt.Printf("Preparing to serve requests\n")
 	err = s.Serve(listener)
 	if err != nil {
 		log.Fatalf("could not serve %v", err)
