@@ -9,13 +9,13 @@ import (
 
 // AddSongRequest is a domain representation of the proto messages
 type AddSongRequest struct {
-	Song Song `json:"song"`
+	Song *Song `json:"song"`
 }
 
 // UpdateSongRequest is a domain representation of the proto messages
 type UpdateSongRequest struct {
 	SongID      string `json:"songID"`
-	UpdatedSong Song   `json:"updatedSong"`
+	UpdatedSong *Song  `json:"updatedSong"`
 }
 
 // GetSongRequest is a domain representation of the proto messages
@@ -27,7 +27,7 @@ type GetSongRequest struct {
 
 // GetSongResponse is a domain representation of the proto messages
 type GetSongResponse struct {
-	FoundSongs []Song `json:"foundSongs"`
+	FoundSongs []*Song `json:"foundSongs"`
 }
 
 // DeleteSongRequest is a domain representation of the proto messages
@@ -37,10 +37,10 @@ type DeleteSongRequest struct {
 
 // Song is a domain representation of the proto messages
 type Song struct {
-	Name    string `json:"name"`
-	Artists string `json:"artists"`
-	Audio   string `json:"audio"`
-	SongID  string `json:"songID"`
+	Name    string   `json:"name"`
+	Artists []string `json:"artists"`
+	Audio   []byte   `json:"audio"`
+	SongID  string   `json:"songID"`
 }
 
 // Service is the service interface used to instantiate a server
