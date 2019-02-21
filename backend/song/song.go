@@ -48,24 +48,49 @@ type Service struct{}
 
 // Add is the API validation method for incoming rpc requests
 func (s Service) Add(ctx context.Context, req *pb.AddSongRequest) (*pb.Empty, error) {
-	fmt.Printf("Adding song with request: %v\n", &req)
-	return nil, nil
+	if req == nil {
+		fmt.Printf("Request was empty\n")
+		return &pb.Empty{}, nil
+	}
+	fmt.Printf(">>>>>Add Song Request Alert<<<<<\n")
+
+	newSong := req.GetNewSong()
+
+	fmt.Printf("New Song Request: %v\n", &newSong)
+
+	request := &AddSongRequest{
+		Song: &Song{
+			Name:    req.NewSong.Name,
+			Artists: req.NewSong.Artists,
+		},
+	}
+
+	fmt.Printf("Adding song with request: %v\n", request)
+
+	return &pb.Empty{}, nil
 }
 
 // Get is the API validation method for incoming rpc requests
 func (s Service) Get(ctx context.Context, req *pb.GetSongRequest) (*pb.GetSongResponse, error) {
 	fmt.Printf("Getting song with request: %v\n", &req)
-	return nil, nil
+	return &pb.GetSongResponse{}, nil
 }
 
 // Update is the API validation method for incoming rpc requests
 func (s Service) Update(ctx context.Context, req *pb.UpdateSongRequest) (*pb.Empty, error) {
 	fmt.Printf("Updating song with request: %v\n", &req)
-	return nil, nil
+	return &pb.Empty{}, nil
 }
 
 // Delete is the API validation method for incoming rpc requests
 func (s Service) Delete(ctx context.Context, req *pb.DeleteSongRequest) (*pb.Empty, error) {
 	fmt.Printf("Deleting song with request: %v\n", &req)
-	return nil, nil
+	return &pb.Empty{}, nil
 }
+
+// type Service interface {
+// 	Add(ctx context.Context, req *pb.AddSongRequest) (*pb.Empty, error)
+// 	Get(ctx context.Context, req *pb.GetSongRequest) (*pb.GetSongResponse, error)
+// 	Update(ctx context.Context, req *pb.UpdateSongRequest) (*pb.Empty, error)
+// 	Delete(ctx context.Context, req *pb.DeleteSongRequest) (*pb.Empty, error)
+// }
