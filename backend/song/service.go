@@ -11,24 +11,24 @@ type Service struct{}
 
 // Add is the service method for handling domain logic
 func (s Service) Add(ctx context.Context, req *AddSongRequest) error {
-	fmt.Printf(">>> Add Service Method called <<<")
+	fmt.Printf(">>> Add Service Method called <<<\n\n")
 	return nil
 }
 
 // Get is the service method for handling domain logic
 func (s Service) Get(ctx context.Context, req *GetSongRequest) (*GetSongResponse, error) {
-	fmt.Printf(">>> Get Service Method called <<<")
+	fmt.Printf(">>> Get Service Method called <<<\n\n")
 	return nil, nil
 }
 
 // Update is the service method for handling domain logic
 func (s Service) Update(ctx context.Context, req *UpdateSongRequest) error {
-	fmt.Printf(">>> Update Service Method called <<<")
+	fmt.Printf(">>> Update Service Method called <<<\n\n")
 	return nil
 }
 
 // Delete is the service method for handling domain logic
 func (s Service) Delete(ctx context.Context, req *DeleteSongRequest) error {
-	fmt.Printf(">>> Delete Service Method called <<<")
+	fmt.Printf(">>> Delete Service Method called <<<\n\n")
 	return nil
 }
