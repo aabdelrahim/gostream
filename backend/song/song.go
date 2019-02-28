@@ -7,47 +7,13 @@ import (
 	"golang.org/x/net/context"
 )
 
-// AddSongRequest is a domain representation of the proto messages
-type AddSongRequest struct {
-	Song *Song `json:"song"`
+// Server is the Server object used to instantiate a server
+type Server struct {
+	Service *Service
 }
-
-// UpdateSongRequest is a domain representation of the proto messages
-type UpdateSongRequest struct {
-	SongID      string `json:"songID"`
-	UpdatedSong *Song  `json:"updatedSong"`
-}
-
-// GetSongRequest is a domain representation of the proto messages
-type GetSongRequest struct {
-	Name    string   `json:"name"`
-	Artists []string `json:"artists"`
-	SongID  string   `json:"songID"`
-}
-
-// GetSongResponse is a domain representation of the proto messages
-type GetSongResponse struct {
-	FoundSongs []*Song `json:"foundSongs"`
-}
-
-// DeleteSongRequest is a domain representation of the proto messages
-type DeleteSongRequest struct {
-	SongID string `json:"songID"`
-}
-
-// Song is a domain representation of the proto messages
-type Song struct {
-	Name    string   `json:"name"`
-	Artists []string `json:"artists"`
-	Audio   []byte   `json:"audio"`
-	SongID  string   `json:"songID"`
-}
-
-// Service is the service interface used to instantiate a server
-type Service struct{}
 
 // Add is the API validation method for incoming rpc requests
-func (s Service) Add(ctx context.Context, req *pb.AddSongRequest) (*pb.Empty, error) {
+func (s Server) Add(ctx context.Context, req *pb.AddSongRequest) (*pb.Empty, error) {
 	if req == nil {
 		fmt.Printf("Request was empty\n")
 		return &pb.Empty{}, nil
@@ -67,11 +33,13 @@ func (s Service) Add(ctx context.Context, req *pb.AddSongRequest) (*pb.Empty, er
 
 	fmt.Printf("Adding song with request: %v\n", request)
 
+	s.Service.Add(ctx, request)
+
 	return &pb.Empty{}, nil
 }
 
 // Get is the API validation method for incoming rpc requests
-func (s Service) Get(ctx context.Context, req *pb.GetSongRequest) (*pb.GetSongResponse, error) {
+func (s Server) Get(ctx context.Context, req *pb.GetSongRequest) (*pb.GetSongResponse, error) {
 	fmt.Printf("Getting song with request: %v\n", &req)
 	if req == nil {
 		fmt.Printf("Request was empty\n")
@@ -88,11 +56,13 @@ func (s Service) Get(ctx context.Context, req *pb.GetSongRequest) (*pb.GetSongRe
 
 	fmt.Printf("Getting song with request: %v\n", request)
 
+	s.Service.Get(ctx, request)
+
 	return &pb.GetSongResponse{}, nil
 }
 
 // Update is the API validation method for incoming rpc requests
-func (s Service) Update(ctx context.Context, req *pb.UpdateSongRequest) (*pb.Empty, error) {
+func (s Server) Update(ctx context.Context, req *pb.UpdateSongRequest) (*pb.Empty, error) {
 	if req == nil {
 		fmt.Printf("Request was empty\n")
 		return &pb.Empty{}, nil
@@ -114,11 +84,13 @@ func (s Service) Update(ctx context.Context, req *pb.UpdateSongRequest) (*pb.Emp
 
 	fmt.Printf("Updating song with request: %v\n", request)
 
+	s.Service.Update(ctx, request)
+
 	return &pb.Empty{}, nil
 }
 
 // Delete is the API validation method for incoming rpc requests
-func (s Service) Delete(ctx context.Context, req *pb.DeleteSongRequest) (*pb.Empty, error) {
+func (s Server) Delete(ctx context.Context, req *pb.DeleteSongRequest) (*pb.Empty, error) {
 	if req == nil {
 		fmt.Printf("Request was empty\n")
 		return &pb.Empty{}, nil
@@ -131,12 +103,7 @@ func (s Service) Delete(ctx context.Context, req *pb.DeleteSongRequest) (*pb.Emp
 
 	fmt.Printf("Deleting song with request: %v\n", request)
 
+	s.Service.Delete(ctx, request)
+
 	return &pb.Empty{}, nil
 }
-
-// type Service interface {
-// 	Add(ctx context.Context, req *pb.AddSongRequest) (*pb.Empty, error)
-// 	Get(ctx context.Context, req *pb.GetSongRequest) (*pb.GetSongResponse, error)
-// 	Update(ctx context.Context, req *pb.UpdateSongRequest) (*pb.Empty, error)
-// 	Delete(ctx context.Context, req *pb.DeleteSongRequest) (*pb.Empty, error)
-// }

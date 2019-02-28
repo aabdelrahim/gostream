@@ -22,7 +22,7 @@ func main() {
 		log.Fatalf("could not listen to port %d: %v", *port, err)
 	}
 
-	pb.RegisterSongServiceServer(s, song.Service{})
+	pb.RegisterSongServiceServer(s, song.Server{})
 
 	fmt.Printf("Preparing to serve requests\n")
 	err = s.Serve(listener)
