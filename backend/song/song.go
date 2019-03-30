@@ -23,21 +23,18 @@ func (s Server) Add(ctx context.Context, req *pb.AddSongRequest) (*pb.Empty, err
 		fmt.Printf("Request was empty\n")
 		return &pb.Empty{}, nil
 	}
-	fmt.Printf(">>>>> Add Song Request Alert <<<<<\n")
+	fmt.Printf(">>> Add Song Request Alert <<<\n")
 
 	newSong := req.GetNewSong()
 
-	fmt.Printf("New Song Request: %v\n", &newSong)
-
 	request := &AddSongRequest{
 		Song: &Song{
-			Name:        req.NewSong.Name,
-			Artists:     req.NewSong.Artists,
-			AudioFromat: req.NewSong.Audioformat,
+			Name:        newSong.Name,
+			Artists:     newSong.Artists,
+			Audio:       newSong.Audio,
+			AudioFormat: newSong.Audioformat,
 		},
 	}
-
-	fmt.Printf("Adding song with request: %v\n", request)
 
 	s.Service.Add(ctx, request)
 
@@ -46,7 +43,6 @@ func (s Server) Add(ctx context.Context, req *pb.AddSongRequest) (*pb.Empty, err
 
 // Get is the API validation method for incoming rpc requests
 func (s Server) Get(ctx context.Context, req *pb.GetSongRequest) (*pb.GetSongResponse, error) {
-	fmt.Printf("Getting song with request: %v\n", &req)
 	if req == nil {
 		fmt.Printf("Request was empty\n")
 		return nil, nil
@@ -59,8 +55,6 @@ func (s Server) Get(ctx context.Context, req *pb.GetSongRequest) (*pb.GetSongRes
 		Artists: req.GetArtists(),
 		SongID:  req.GetSongID(),
 	}
-
-	fmt.Printf("Getting song with request: %v\n", request)
 
 	s.Service.Get(ctx, request)
 
