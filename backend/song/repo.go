@@ -21,7 +21,7 @@ func (r Repo) Add(ctx context.Context, song *Song) error {
 	check(err)
 	return nil
 }
-q
+
 func check(e error) {
 	if e != nil {
 		panic(e)
