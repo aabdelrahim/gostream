@@ -40,6 +40,7 @@ message Song {
     string name = 1;
     repeated string artists = 2;
     bytes audio = 3;
+    string audioformate = 4;
 }
 
 message Empty {}
