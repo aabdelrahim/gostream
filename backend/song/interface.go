@@ -46,5 +46,5 @@ type Song struct {
 	Artists     []string `json:"artists"`
 	Audio       []byte   `json:"audio"`
 	SongID      string   `json:"songID"`
-	AudioFromat string   `json:"audioFromat"`
+	AudioFormat string   `json:"audioFormat"`
 }
