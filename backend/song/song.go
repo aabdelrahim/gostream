@@ -7,6 +7,11 @@ import (
 	"golang.org/x/net/context"
 )
 
+// CreateServer creates a new instance of the song server ready to be used
+func CreateServer(s *Service) *Server {
+	return &Server{Service: s}
+}
+
 // Server is the Server object used to instantiate a server
 type Server struct {
 	Service *Service

@@ -4,8 +4,8 @@ import (
 	"golang.org/x/net/context"
 )
 
-// Interface is a song service-layer interface
-type Interface interface {
+// ServiceInterface is a song service-layer interface
+type ServiceInterface interface {
 	Add(ctx context.Context, req AddSongRequest) error
 	Get(ctx context.Context, req GetSongRequest) (GetSongResponse, error)
 	Update(ctx context.Context, req UpdateSongRequest) error

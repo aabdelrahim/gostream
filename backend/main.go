@@ -7,7 +7,6 @@ import (
 	"net"
 
 	pb "github.com/aabdelrahim/gostream/api"
-	"github.com/aabdelrahim/gostream/backend/song"
 	grpc "google.golang.org/grpc"
 )
 
@@ -21,8 +20,11 @@ func main() {
 	if err != nil {
 		log.Fatalf("could not listen to port %d: %v", *port, err)
 	}
+	songRepo := CreateRepo()
+	songService := CreateService(songRepo)
+	songServer := CreateServer(songService)
 
-	pb.RegisterSongServiceServer(s, song.Server{&song.Service{}})
+	pb.RegisterSongServiceServer(s, songServer)
 
 	fmt.Printf("Preparing to serve requests\n")
 	err = s.Serve(listener)

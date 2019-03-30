@@ -6,13 +6,21 @@ import (
 	"golang.org/x/net/context"
 )
 
+// CreateService creates a new instance of Service ready to be used
+func CreateService(r *Repo) *Service {
+	return &Service{repo: r}
+}
+
 // Service is the service layer structure for handling domain logic
-type Service struct{}
+type Service struct {
+	repo *Repo
+}
 
 // Add is the service method for handling domain logic
 func (s Service) Add(ctx context.Context, req *AddSongRequest) error {
 	fmt.Printf(">>> Add Service Method called <<<\n\n")
-	return nil
+	err := s.repo.Add(ctx, req.Song)
+	return err
 }
 
 // Get is the service method for handling domain logic
