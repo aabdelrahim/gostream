@@ -42,9 +42,9 @@ type DeleteSongRequest struct {
 
 // Song is a domain representation of the proto messages
 type Song struct {
-	Name         string   `json:"name"`
-	Artists      []string `json:"artists"`
-	Audio        []byte   `json:"audio"`
-	SongID       string   `json:"songID"`
-	AudioFromate string   `json:"audioFromat"`
+	Name        string   `json:"name"`
+	Artists     []string `json:"artists"`
+	Audio       []byte   `json:"audio"`
+	SongID      string   `json:"songID"`
+	AudioFromat string   `json:"audioFromat"`
 }
