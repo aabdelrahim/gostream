@@ -26,22 +26,6 @@ func main() {
 
 	dat, err := ioutil.ReadFile("testfile.mp3")
 	check(err)
-	fmt.Println(dat)
-
-	// portaudio.Initialize()
-	// defer portaudio.Terminate()
-	// buffer := make([]float32, sampleRate*seconds)
-
-	// stream, err := portaudio.OpenDefaultStream(0, 1, sampleRate, len(buffer), func(in []float32) {
-	// 	for i := range buffer {
-	// 		buffer[i] = in[i]
-	// 	}
-	// })
-
-	// check(err)
-
-	// stream.Start()
-	// defer stream.Close()
 
 	newSong := &pb.Song{Name: "NSong", Artists: []string{"A"}, Audio: dat, Audioformat: "mp3"}
 	request := &pb.AddSongRequest{NewSong: newSong}
