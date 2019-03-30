@@ -31,8 +31,9 @@ func (s Server) Add(ctx context.Context, req *pb.AddSongRequest) (*pb.Empty, err
 
 	request := &AddSongRequest{
 		Song: &Song{
-			Name:    req.NewSong.Name,
-			Artists: req.NewSong.Artists,
+			Name:        req.NewSong.Name,
+			Artists:     req.NewSong.Artists,
+			AudioFromat: req.NewSong.Audioformat,
 		},
 	}
 
@@ -81,9 +82,10 @@ func (s Server) Update(ctx context.Context, req *pb.UpdateSongRequest) (*pb.Empt
 	request := &UpdateSongRequest{
 		SongID: req.GetSongID(),
 		UpdatedSong: &Song{
-			Name:    updatedSong.GetName(),
-			Artists: updatedSong.GetArtists(),
-			Audio:   updatedSong.GetAudio(),
+			Name:        updatedSong.GetName(),
+			Artists:     updatedSong.GetArtists(),
+			Audio:       updatedSong.GetAudio(),
+			AudioFromat: updatedSong.GetAudioformat(),
 		},
 	}
 
