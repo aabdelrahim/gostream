@@ -17,7 +17,7 @@ type Repo struct{}
 // Add creates a new audio file for a given song
 func (r Repo) Add(ctx context.Context, song *Song) error {
 	fmt.Printf(">>> Add Repo Method called <<<\n\n")
-	err := ioutil.WriteFile("./"+song.Name+song.AudioFormat, song.Audio, 0644)
+	err := ioutil.WriteFile("./"+song.Name+"."+song.AudioFormat, song.Audio, 0644)
 	check(err)
 	return nil
 }
