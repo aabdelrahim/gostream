@@ -79,7 +79,7 @@ func (s Server) Update(ctx context.Context, req *pb.UpdateSongRequest) (*pb.Empt
 			Name:        updatedSong.GetName(),
 			Artists:     updatedSong.GetArtists(),
 			Audio:       updatedSong.GetAudio(),
-			AudioFromat: updatedSong.GetAudioformat(),
+			AudioFormat: updatedSong.GetAudioformat(),
 		},
 	}
 
