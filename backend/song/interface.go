@@ -6,10 +6,15 @@ import (
 
 // ServiceInterface is a song service-layer interface
 type ServiceInterface interface {
-	Add(ctx context.Context, req AddSongRequest) error
-	Get(ctx context.Context, req GetSongRequest) (GetSongResponse, error)
-	Update(ctx context.Context, req UpdateSongRequest) error
-	Delete(ctx context.Context, req DeleteSongRequest) error
+	Add(ctx context.Context, req *AddSongRequest) error
+	Get(ctx context.Context, req *GetSongRequest) (*GetSongResponse, error)
+	Update(ctx context.Context, req *UpdateSongRequest) error
+	Delete(ctx context.Context, req *DeleteSongRequest) error
+}
+
+// RepoInterface is a song repo-layer interface
+type RepoInterface interface {
+	Add(ctx context.Context, song *Song) error
 }
 
 // AddSongRequest is a domain representation of the proto messages

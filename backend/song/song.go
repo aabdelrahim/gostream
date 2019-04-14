@@ -14,7 +14,7 @@ func CreateServer(s *Service) *Server {
 
 // Server is the Server object used to instantiate a server
 type Server struct {
-	Service *Service
+	Service ServiceInterface
 }
 
 // Add is the API validation method for incoming rpc requests

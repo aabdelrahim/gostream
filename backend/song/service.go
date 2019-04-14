@@ -13,7 +13,7 @@ func CreateService(r *Repo) *Service {
 
 // Service is the service layer structure for handling domain logic
 type Service struct {
-	repo *Repo
+	repo RepoInterface
 }
 
 // Add is the service method for handling domain logic
