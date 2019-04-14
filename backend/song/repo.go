@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"io/ioutil"
+	"strings"
 
 	_ "github.com/lib/pq"
 )
@@ -46,20 +47,43 @@ func ConnectToDatabase() *sql.DB {
 // Add creates a new audio file for a given song
 func (r Repo) Add(ctx context.Context, song *Song) error {
 	fmt.Printf(">>> Add Repo Method called <<<\n\n")
+
 	path := "./musicLibrary/" + song.Name + "." + song.AudioFormat
+
+	err := ioutil.WriteFile(path, song.Audio, 0644)
+	if err != nil {
+		fmt.Printf("Writing Audio file failed\n")
+		return err
+	}
+
 	tx, err := r.db.Begin()
+	if err != nil {
+		fmt.Printf("Creating DB transaction failed\n")
+		return err
+	}
+
+	artists := strings.Join(song.Artists, " | ")
+
+	query := `INSERT INTO gostream.song (
+		name,
+		artists,
+		audioFormat,
+		filePath
+	) VALUES (
+		$1,
+		$2,
+		$3,
+		$4
+	);`
+	_, err = tx.Exec(query, song.Name, artists, song.AudioFormat, path)
+	if err != nil {
+		fmt.Printf("Inserting row failed: %v\n", err)
+		return err
+	}
+	err = tx.Commit()
 	if err != nil {
 		return err
 	}
-	err := ioutil.WriteFile(path, song.Audio, 0644)
-
-	// f, err := os.Create("./musicLibrary/songmetadata")
-	// check(err)
-	// defer f.Close()
-
-	// f.Write([]byte(stringifySong(song, path)))
-
-	check(err)
 	return nil
 }
 
@@ -75,14 +99,3 @@ func transactionCheck(e error, tx *sql.Tx) {
 		panic(e)
 	}
 }
-
-// func stringifySong(song *Song, path string) string {
-// 	resp := song.SongID
-// 	resp += "- " + song.Name + "\n"
-// 	resp += " path: " + path + "\n"
-// 	for _, v := range song.Artists {
-// 		resp += " Artist: " + v + "\n"
-// 	}
-
-// 	return resp
-// }
