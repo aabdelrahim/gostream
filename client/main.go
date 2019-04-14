@@ -27,7 +27,7 @@ func main() {
 	dat, err := ioutil.ReadFile("testfile.mp3")
 	check(err)
 
-	newSong := &pb.Song{Name: "NSong", Artists: []string{"A"}, Audio: dat, Audioformat: "mp3"}
+	newSong := &pb.Song{Name: "testsong", Artists: []string{}, Audio: dat, Audioformat: "mp3"}
 	request := &pb.AddSongRequest{NewSong: newSong}
 	resp, err := client.Add(context.Background(), request)
 	if err != nil {
