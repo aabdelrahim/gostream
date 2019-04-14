@@ -36,7 +36,10 @@ func (s Server) Add(ctx context.Context, req *pb.AddSongRequest) (*pb.Empty, err
 		},
 	}
 
-	s.Service.Add(ctx, request)
+	err := s.Service.Add(ctx, request)
+	if err != nil {
+		return &pb.Empty{}, err
+	}
 
 	return &pb.Empty{}, nil
 }
