@@ -10,15 +10,17 @@ import (
 )
 
 // CreateRepo creates a new instance of Repo ready to be used
-func CreateRepo() *Repo {
-	return &Repo{}
+func CreateRepo(db *sql.DB) *Repo {
+	return &Repo{db: db}
 }
 
 // Repo is the repo layer used for managing files
-type Repo struct{}
+type Repo struct {
+	db *sql.DB
+}
 
 // ConnectToDatabase creates the initial connection to the databse when the repo is created
-func ConnectToDatabase() {
+func ConnectToDatabase() *sql.DB {
 	db, err := sql.Open("postgres", "user=postgres password=docker port=5432 sslmode=disable")
 	check(err)
 	tx, err := db.Begin()
@@ -38,12 +40,17 @@ func ConnectToDatabase() {
 	`)
 	transactionCheck(err, tx)
 	fmt.Printf("\n > DATABASE INITIALIZED <\n")
+	return db
 }
 
 // Add creates a new audio file for a given song
 func (r Repo) Add(ctx context.Context, song *Song) error {
 	fmt.Printf(">>> Add Repo Method called <<<\n\n")
 	path := "./musicLibrary/" + song.Name + "." + song.AudioFormat
+	tx, err := r.db.Begin()
+	if err != nil {
+		return err
+	}
 	err := ioutil.WriteFile(path, song.Audio, 0644)
 
 	// f, err := os.Create("./musicLibrary/songmetadata")
