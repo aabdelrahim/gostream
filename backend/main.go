@@ -21,7 +21,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("could not listen to port %d: %v", *port, err)
 	}
-	songRepo := song.CreateRepo()
+	db := song.ConnectToDatabase()
+	songRepo := song.CreateRepo(db)
 	songService := song.CreateService(songRepo)
 	songServer := song.CreateServer(songService)
 
