@@ -15,6 +15,7 @@ type ServiceInterface interface {
 // RepoInterface is a song repo-layer interface
 type RepoInterface interface {
 	Add(ctx context.Context, song *Song) error
+	Get(ctx context.Context, name string) ([]*Song, error)
 }
 
 // AddSongRequest is a domain representation of the proto messages

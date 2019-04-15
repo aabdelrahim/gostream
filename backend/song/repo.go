@@ -87,6 +87,50 @@ func (r Repo) Add(ctx context.Context, song *Song) error {
 	return nil
 }
 
+// Get get audio files for a song
+func (r Repo) Get(ctx context.Context, name string) ([]*Song, error) {
+	fmt.Printf(">>> Add Repo Method called <<<\n\n")
+
+	tx, err := r.db.Begin()
+	if err != nil {
+		fmt.Printf("Creating DB transaction failed\n")
+		return nil, err
+	}
+	rows, err := tx.Query(`SELECT * FROM gostream.song WHERE name like  '%' || $1 || '%'`, name)
+	if err != nil {
+		fmt.Printf("Get songs query failed: %v\n", err)
+		return nil, err
+	}
+	defer rows.Close()
+	var id string
+	var songName string
+	var artists string
+	var audioFormat string
+	var filePath string
+	var foundSongs []*Song
+	for rows.Next() {
+		err = rows.Scan(&id, &songName, &artists, &audioFormat, &filePath)
+		if err != nil {
+			fmt.Printf("Error during row scan: %v", err)
+			return nil, err
+		}
+		fmt.Println(id, songName, artists, audioFormat, filePath)
+		songaudio, err := ioutil.ReadFile(filePath)
+		if err != nil {
+			fmt.Printf("Error reading file at %s: %v", filePath, err)
+		}
+
+		foundSongs = append(foundSongs, &Song{
+			Name:        songName,
+			Artists:     strings.Split(artists, " | "),
+			Audio:       songaudio,
+			AudioFormat: audioFormat,
+			SongID:      id,
+		})
+	}
+	return foundSongs, nil
+}
+
 func check(e error) {
 	if e != nil {
 		panic(e)

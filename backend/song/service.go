@@ -26,7 +26,10 @@ func (s Service) Add(ctx context.Context, req *AddSongRequest) error {
 // Get is the service method for handling domain logic
 func (s Service) Get(ctx context.Context, req *GetSongRequest) (*GetSongResponse, error) {
 	fmt.Printf(">>> Get Service Method called <<<\n")
-	return nil, nil
+	foundSongs, err := s.repo.Get(ctx, req.Name)
+	return &GetSongResponse{
+		FoundSongs: foundSongs,
+	}, err
 }
 
 // Update is the service method for handling domain logic
