@@ -49,7 +49,7 @@ func ConnectToDatabase() *sql.DB {
 func (r Repo) Add(ctx context.Context, song *Song) error {
 	fmt.Printf(">>> Add Repo Method called <<<\n\n")
 
-	path := "./musicLibrary/" + song.Name + "." + song.AudioFormat
+	artists := strings.Join(song.Artists, " | ")
 
 	err := ioutil.WriteFile(path, song.Audio, 0644)
 	if err != nil {
@@ -62,8 +62,7 @@ func (r Repo) Add(ctx context.Context, song *Song) error {
 		fmt.Printf("Creating DB transaction failed\n")
 		return err
 	}
-
-	artists := strings.Join(song.Artists, " | ")
+	defer tx.Rollback()
 
 	query := `INSERT INTO gostream.song (
 		name,
