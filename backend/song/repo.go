@@ -51,6 +51,8 @@ func (r Repo) Add(ctx context.Context, song *Song) error {
 
 	artists := strings.Join(song.Artists, " | ")
 
+	path := "./musicLibrary/" + song.Name + "-" + artists + "." + song.AudioFormat
+
 	err := ioutil.WriteFile(path, song.Audio, 0644)
 	if err != nil {
 		fmt.Printf("Writing Audio file failed\n")
