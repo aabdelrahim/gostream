@@ -133,7 +133,7 @@ func (r Repo) GetMulti(ctx context.Context, name string) ([]*Song, error) {
 	return foundSongs, nil
 }
 
-// Get returns the song data for the 1 song with songID
+// Get returns the song data for the single song with matching songID
 func (r Repo) Get(ctx context.Context, songID string) (*Song, error) {
 	fmt.Printf(">>> Add Repo Method called <<<\n\n")
 
@@ -178,7 +178,7 @@ func (r Repo) Get(ctx context.Context, songID string) (*Song, error) {
 	return foundSong, nil
 }
 
-// Update TODO
+// Update updates the song with matching songID with newSongData in database and file
 func (r Repo) Update(ctx context.Context, newSongData *Song, filePath string) error {
 	fmt.Printf(">>> Update Repo Method called <<<\n\n")
 
@@ -212,7 +212,7 @@ func (r Repo) Update(ctx context.Context, newSongData *Song, filePath string) er
 	return nil
 }
 
-// Delete TODO
+// Delete removes the song with matching songID from database and removes song file
 func (r Repo) Delete(ctx context.Context, songID string, filePath string) error {
 	fmt.Printf(">>> Delete Repo Method called <<<\n\n")
 
