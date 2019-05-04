@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"strings"
 
 	_ "github.com/lib/pq" //adding postgres parsing for database connections
@@ -207,6 +208,40 @@ func (r Repo) Update(ctx context.Context, newSongData *Song, filePath string) er
 		fmt.Printf("Committing transaction failed: %v\n", err)
 		return err
 	}
+	return nil
+}
+
+// Delete TODO
+func (r Repo) Delete(ctx context.Context, songID string, filePath string) error {
+	fmt.Printf(">>> Delete Repo Method called <<<\n\n")
+
+	tx, err := r.db.Begin()
+	if err != nil {
+		fmt.Printf("Creating DB transaction failed: %v\n", err)
+		return err
+	}
+	defer tx.Rollback()
+
+	_, err = tx.Exec(`DELETE FROM gostream.song
+		WHERE songID = $1;`,
+		songID)
+	if err != nil {
+		fmt.Printf("Failed to delete song from database: %v\n", err)
+		return err
+	}
+
+	err = os.Remove(filePath)
+	if err != nil {
+		fmt.Printf("Failed to remove file at: %v - %v\n", filePath, err)
+		return err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		fmt.Printf("Committing transaction failed: %v\n", err)
+		return err
+	}
+
 	return nil
 }
 
