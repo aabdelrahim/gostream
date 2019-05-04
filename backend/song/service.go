@@ -50,5 +50,16 @@ func (s Service) Update(ctx context.Context, req *UpdateSongRequest) error {
 // Delete is the service method for handling domain logic
 func (s Service) Delete(ctx context.Context, req *DeleteSongRequest) error {
 	fmt.Printf(">>> Delete Service Method called <<<\n")
+	song, err := s.repo.Get(ctx, req.SongID)
+	if err != nil {
+		return err
+	}
+	if song == nil {
+		return nil
+	}
+	err = s.repo.Delete(ctx, req.SongID, song.FilePath)
+	if err != nil {
+		return err
+	}
 	return nil
 }
