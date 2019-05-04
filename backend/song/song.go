@@ -77,12 +77,12 @@ func (s Server) Update(ctx context.Context, req *pb.UpdateSongRequest) (*pb.Empt
 	fmt.Printf("New Song Request: %v\n", &updatedSong)
 
 	request := &UpdateSongRequest{
-		SongID: req.GetSongID(),
 		UpdatedSong: &Song{
 			Name:        updatedSong.GetName(),
 			Artists:     updatedSong.GetArtists(),
 			Audio:       updatedSong.GetAudio(),
 			AudioFormat: updatedSong.GetAudioformat(),
+			SongID:      req.GetSongID(),
 		},
 	}
 
