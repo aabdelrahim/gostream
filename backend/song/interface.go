@@ -18,6 +18,7 @@ type RepoInterface interface {
 	GetMulti(ctx context.Context, name string) ([]*Song, error)
 	Get(ctx context.Context, songID string) (*Song, error)
 	Update(ctx context.Context, newSongData *Song, filePath string) error
+	Delete(ctx context.Context, songID string, filePath string) error
 }
 
 // AddSongRequest is a domain representation of the proto messages
