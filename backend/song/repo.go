@@ -175,6 +175,41 @@ func (r Repo) Get(ctx context.Context, songID string) (*Song, error) {
 	}
 	return foundSong, nil
 }
+
+// Update TODO
+func (r Repo) Update(ctx context.Context, newSongData *Song, filePath string) error {
+	fmt.Printf(">>> Update Repo Method called <<<\n\n")
+
+	tx, err := r.db.Begin()
+	if err != nil {
+		fmt.Printf("Creating DB transaction failed\n")
+		return err
+	}
+	defer tx.Rollback()
+
+	_, err = tx.Exec(`UPDATE gostream.song
+		SET name = $1, artists = $2, audioFormat = $3
+		WHERE songID = $4;`,
+		newSongData.Name, newSongData.Artists, newSongData.AudioFormat, newSongData.SongID)
+	if err != nil {
+		fmt.Printf("Updating song data failed: %v\n", err)
+		return err
+	}
+
+	err = ioutil.WriteFile(filePath, newSongData.Audio, 0644)
+	if err != nil {
+		fmt.Printf("Failed to write updated song bytes to file: %v\n", err)
+		return err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		fmt.Printf("Committing transaction failed: %v\n", err)
+		return err
+	}
+	return nil
+}
+
 func check(e error) {
 	if e != nil {
 		panic(e)
