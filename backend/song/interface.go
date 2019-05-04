@@ -16,6 +16,7 @@ type ServiceInterface interface {
 type RepoInterface interface {
 	Add(ctx context.Context, song *Song) error
 	GetMulti(ctx context.Context, name string) ([]*Song, error)
+	Get(ctx context.Context, songID string) (*Song, error)
 }
 
 // AddSongRequest is a domain representation of the proto messages
