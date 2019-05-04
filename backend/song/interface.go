@@ -28,8 +28,7 @@ type AddSongRequest struct {
 
 // UpdateSongRequest is a domain representation of the proto messages
 type UpdateSongRequest struct {
-	SongID      string `json:"songID"`
-	UpdatedSong *Song  `json:"updatedSong"`
+	UpdatedSong *Song `json:"updatedSong"`
 }
 
 // GetSongRequest is a domain representation of the proto messages
