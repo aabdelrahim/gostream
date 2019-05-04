@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 	"strings"
 
-	_ "github.com/lib/pq"
+	_ "github.com/lib/pq" //adding postgres parsing for database connections
 )
 
 // CreateRepo creates a new instance of Repo ready to be used
