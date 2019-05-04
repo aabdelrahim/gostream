@@ -53,4 +53,5 @@ type Song struct {
 	Audio       []byte   `json:"audio"`
 	SongID      string   `json:"songID"`
 	AudioFormat string   `json:"audioFormat"`
+	FilePath    string   `json:"filePath"`
 }
