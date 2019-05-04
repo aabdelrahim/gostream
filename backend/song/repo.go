@@ -87,8 +87,8 @@ func (r Repo) Add(ctx context.Context, song *Song) error {
 	return nil
 }
 
-// Get get audio files for a song
-func (r Repo) Get(ctx context.Context, name string) ([]*Song, error) {
+// GetMulti returns all songs that match the song name
+func (r Repo) GetMulti(ctx context.Context, name string) ([]*Song, error) {
 	fmt.Printf(">>> Add Repo Method called <<<\n\n")
 
 	tx, err := r.db.Begin()
