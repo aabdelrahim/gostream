@@ -35,11 +35,10 @@ func (s Service) Get(ctx context.Context, req *GetSongRequest) (*GetSongResponse
 // Update is the service method for handling domain logic
 func (s Service) Update(ctx context.Context, req *UpdateSongRequest) error {
 	fmt.Printf(">>> Update Service Method called <<<\n")
-	song, err := s.repo.Get(ctx, req.SongID)
+	song, err := s.repo.Get(ctx, req.UpdatedSong.SongID)
 	if err != nil {
 		return err
 	}
-	req.UpdatedSong.SongID = req.SongID // TODO, do this more gracefully
 	err = s.repo.Update(ctx, req.UpdatedSong, song.FilePath)
 	if err != nil {
 		return err
