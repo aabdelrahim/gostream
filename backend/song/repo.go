@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"os"
 	"strings"
 
@@ -50,8 +51,13 @@ func (r Repo) Add(ctx context.Context, song *Song) error {
 	fmt.Printf(">>> Add Repo Method called <<<\n\n")
 
 	artists := strings.Join(song.Artists, " | ")
+	saltLength := 16
+	salt := make([]byte, saltLength)
+	for i := 0; i < saltLength; i++ {
+		salt[i] = byte(65 + rand.Intn(25)) //A=65 and Z = 65+25
+	}
 
-	path := "./musicLibrary/" + song.Name + "-" + artists + "." + song.AudioFormat
+	path := "./musicLibrary/" + song.Name + "-" + string(salt) + "." + song.AudioFormat
 
 	err := ioutil.WriteFile(path, song.Audio, 0644)
 	if err != nil {
