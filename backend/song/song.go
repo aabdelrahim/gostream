@@ -51,7 +51,7 @@ func (s Server) Get(ctx context.Context, req *pb.GetSongRequest) (*pb.GetSongRes
 		return nil, nil
 	}
 
-	fmt.Printf(">>>>> Add Song Request Alert <<<<<\n")
+	fmt.Printf(">>>>> Get Song Request Alert <<<<<\n")
 
 	request := &GetSongRequest{
 		Name:    req.GetName(),
@@ -59,9 +59,20 @@ func (s Server) Get(ctx context.Context, req *pb.GetSongRequest) (*pb.GetSongRes
 		SongID:  req.GetSongID(),
 	}
 
-	s.Service.Get(ctx, request)
+	resp, err := s.Service.Get(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	getSongResults := make([]*pb.GetSongResponse_GetSongResult, len(resp.FoundSongs))
 
-	return &pb.GetSongResponse{}, nil
+	for k, v := range resp.FoundSongs {
+		getSongResults[k] = &pb.GetSongResponse_GetSongResult{
+			Song:   songToProto(v),
+			SongID: v.SongID,
+		}
+	}
+
+	return &pb.GetSongResponse{Result: getSongResults}, nil
 }
 
 // Update is the API validation method for incoming rpc requests
