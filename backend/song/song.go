@@ -111,3 +111,12 @@ func (s Server) Delete(ctx context.Context, req *pb.DeleteSongRequest) (*pb.Empt
 
 	return &pb.Empty{}, nil
 }
+
+func songToProto(in *Song) *pb.Song {
+	return &pb.Song{
+		Name:        in.Name,
+		Audio:       in.Audio,
+		Artists:     in.Artists,
+		Audioformat: in.AudioFormat,
+	}
+}
