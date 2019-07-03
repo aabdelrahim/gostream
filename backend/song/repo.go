@@ -97,7 +97,7 @@ func (r Repo) Add(ctx context.Context, song *Song) error {
 
 // GetMulti returns all songs that match the song name
 func (r Repo) GetMulti(ctx context.Context, name string) ([]*Song, error) {
-	fmt.Printf(">>> Add Repo Method called <<<\n\n")
+	fmt.Printf(">>> GetMulti Repo Method called <<<\n\n")
 
 	tx, err := r.db.Begin()
 	if err != nil {
@@ -115,9 +115,10 @@ func (r Repo) GetMulti(ctx context.Context, name string) ([]*Song, error) {
 	var artists string
 	var audioFormat string
 	var filePath string
+	var createdOn string
 	var foundSongs []*Song
 	for rows.Next() {
-		err = rows.Scan(&id, &songName, &artists, &audioFormat, &filePath)
+		err = rows.Scan(&id, &songName, &artists, &audioFormat, &filePath, &createdOn)
 		if err != nil {
 			fmt.Printf("Error during row scan: %v", err)
 			return nil, err
