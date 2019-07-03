@@ -4,7 +4,6 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"io/ioutil"
 
 	pb "github.com/aabdelrahim/gostream/api"
 	grpc "google.golang.org/grpc"
@@ -24,16 +23,23 @@ func main() {
 	defer conn.Close()
 	client := pb.NewSongServiceClient(conn)
 
-	dat, err := ioutil.ReadFile("testfile.mp3")
+	// dat, err := ioutil.ReadFile("testfile.mp3")
 	check(err)
 
-	newSong := &pb.Song{Name: "testsong", Artists: []string{}, Audio: dat, Audioformat: "mp3"}
-	request := &pb.AddSongRequest{NewSong: newSong}
-	resp, err := client.Add(context.Background(), request)
-	if err != nil {
-		fmt.Printf("Error sending grpc request: %v - %v\n", request, err)
+	// newSong := &pb.Song{Name: "testsong", Artists: []string{}, Audio: dat, Audioformat: "mp3"}
+	// request := &pb.AddSongRequest{NewSong: newSong}
+	// resp, err := client.Add(context.Background(), request)
+	// if err != nil {
+	// 	fmt.Printf("Error sending grpc request: %v - %v\n", request, err)
+	// }
+	// fmt.Printf("Got response: %v", resp)
+
+	fmt.Printf("Getting Song with name 'testsong' \n")
+	request := &pb.GetSongRequest{Name: "testsong"}
+	resp, err := client.Get(context.Background(), request)
+	for _, v := range resp.Result {
+		fmt.Println(v.Song.Name, " has id: ", v.SongID)
 	}
-	fmt.Printf("Got response: %v", resp)
 
 }
 
