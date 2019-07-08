@@ -24,20 +24,19 @@ func main() {
 	defer conn.Close()
 	client := pb.NewSongServiceClient(conn)
 	// addSong(context.Background(), client, "testfile", "mp3", []string{}, "newSong")
-	getSong(context.Background(), client, "newSong", []string{}, "")
+	// getSong(context.Background(), client, "newSong", []string{}, "")
+	updateSong(context.Background(), client, "", "testSong", "testfile", []string{}, "mp3")
 }
 
-func addSong(ctx context.Context, client pb.SongServiceClient, filename string, audioFormat string, artists []string, songName string) {
+func addSong(ctx context.Context, client pb.SongServiceClient, songName string, filename string, audioFormat string, artists []string) {
 	dat, err := ioutil.ReadFile(filename + "." + audioFormat)
 	check(err)
 	newSong := &pb.Song{Name: songName, Artists: artists, Audio: dat, Audioformat: audioFormat}
 	request := &pb.AddSongRequest{NewSong: newSong}
-	fmt.Printf("Adding song with request\rsongName: %s\rartists: %v\n", songName, artists)
+	fmt.Printf("Adding song with request\nsongName: %s\nartists: %s\n", songName, artists)
 	resp, err := client.Add(ctx, request)
-	if err != nil {
-		fmt.Printf("Error sending grpc request: %v - %v\n", request, err)
-	}
-	fmt.Printf("Got response: %v", resp)
+	check(err)
+	fmt.Printf("Got response: %v\n", resp)
 }
 
 func getSong(ctx context.Context, client pb.SongServiceClient, songName string, artists []string, songID string) {
@@ -48,6 +47,17 @@ func getSong(ctx context.Context, client pb.SongServiceClient, songName string, 
 	for _, v := range resp.Result {
 		fmt.Println(v.Song.Name, " has id: ", v.SongID)
 	}
+}
+
+func updateSong(ctx context.Context, client pb.SongServiceClient, SongID string, songName string, filename string, artists []string, audioFormat string) {
+	dat, err := ioutil.ReadFile(filename + "." + audioFormat)
+	check(err)
+	updatedSong := &pb.Song{Name: songName, Artists: artists, Audio: dat, Audioformat: audioFormat}
+	request := &pb.UpdateSongRequest{SongID: SongID, UpdatedSong: updatedSong}
+	fmt.Printf("Updating song with ID: %s to\nname: %s\nartists: %s\n", SongID, songName, artists)
+	resp, err := client.Update(ctx, request)
+	check(err)
+	fmt.Printf("Got response: %v\n", resp)
 }
 
 func check(e error) {
