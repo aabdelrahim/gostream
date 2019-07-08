@@ -86,7 +86,7 @@ func (s Server) Update(ctx context.Context, req *pb.UpdateSongRequest) (*pb.Empt
 	}
 
 	if req.SongID == "" {
-		fmt.Printf("SongID is required to update a song")
+		fmt.Printf("SongID is required to update a song\n")
 		err := status.Error(codes.NotFound, "SongID is required to update a song")
 		return &pb.Empty{}, err
 	}
@@ -120,6 +120,13 @@ func (s Server) Delete(ctx context.Context, req *pb.DeleteSongRequest) (*pb.Empt
 		fmt.Printf("Request was empty\n")
 		return &pb.Empty{}, nil
 	}
+
+	if req.SongID == "" {
+		fmt.Printf("SongID is required to update a song\n")
+		err := status.Error(codes.NotFound, "SongID is required to update a song")
+		return &pb.Empty{}, err
+	}
+
 	fmt.Printf(">>>>> Delete Song Request Alert <<<<<\n")
 
 	request := &DeleteSongRequest{
