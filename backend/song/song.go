@@ -4,7 +4,9 @@ import (
 	"fmt"
 
 	pb "github.com/aabdelrahim/gostream/api"
+	"github.com/grpc/grpc-go/status"
 	"golang.org/x/net/context"
+	"google.golang.org/grpc/codes"
 )
 
 // CreateServer creates a new instance of the song server ready to be used
@@ -79,8 +81,16 @@ func (s Server) Get(ctx context.Context, req *pb.GetSongRequest) (*pb.GetSongRes
 func (s Server) Update(ctx context.Context, req *pb.UpdateSongRequest) (*pb.Empty, error) {
 	if req == nil {
 		fmt.Printf("Request was empty\n")
-		return &pb.Empty{}, nil
+		err := status.Error(codes.FailedPrecondition, "Request was empty")
+		return &pb.Empty{}, err
 	}
+
+	if req.SongID == "" {
+		fmt.Printf("SongID is required to update a song")
+		err := status.Error(codes.NotFound, "SongID is required to update a song")
+		return &pb.Empty{}, err
+	}
+
 	fmt.Printf(">>>>> Update Song Request Alert <<<<<\n")
 
 	updatedSong := req.GetUpdatedSong()
