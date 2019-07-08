@@ -159,9 +159,10 @@ func (r Repo) Get(ctx context.Context, songID string) (*Song, error) {
 	var artists string
 	var audioFormat string
 	var filePath string
+	var createdOn string
 	var foundSong *Song
 	for rows.Next() {
-		err = rows.Scan(&id, &songName, &artists, &audioFormat, &filePath)
+		err = rows.Scan(&id, &songName, &artists, &audioFormat, &filePath, &createdOn)
 		if err != nil {
 			fmt.Printf("Error during row scan: %v", err)
 			return nil, err
