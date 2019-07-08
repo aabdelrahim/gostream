@@ -25,7 +25,8 @@ func main() {
 	client := pb.NewSongServiceClient(conn)
 	// addSong(context.Background(), client, "testfile", "mp3", []string{}, "newSong")
 	// getSong(context.Background(), client, "newSong", []string{}, "")
-	updateSong(context.Background(), client, "3", "testSong1", "testfile", []string{}, "mp3")
+	// updateSong(context.Background(), client, "3", "testSong1", "testfile", []string{}, "mp3")
+	deleteSong(context.Background(), client, "3")
 }
 
 func addSong(ctx context.Context, client pb.SongServiceClient, songName string, filename string, audioFormat string, artists []string) {
@@ -56,6 +57,14 @@ func updateSong(ctx context.Context, client pb.SongServiceClient, SongID string,
 	request := &pb.UpdateSongRequest{SongID: SongID, UpdatedSong: updatedSong}
 	fmt.Printf("Updating song with ID: %s to\nname: %s\nartists: %s\n", SongID, songName, artists)
 	resp, err := client.Update(ctx, request)
+	check(err)
+	fmt.Printf("Got response: %v\n", resp)
+}
+
+func deleteSong(ctx context.Context, client pb.SongServiceClient, SongID string) {
+	request := &pb.DeleteSongRequest{SongID: SongID}
+	fmt.Printf("Deleteing song with ID: %s\n", SongID)
+	resp, err := client.Delete(ctx, request)
 	check(err)
 	fmt.Printf("Got response: %v\n", resp)
 }
