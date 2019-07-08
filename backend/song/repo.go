@@ -196,10 +196,12 @@ func (r Repo) Update(ctx context.Context, newSongData *Song, filePath string) er
 	}
 	defer tx.Rollback()
 
+	artists := strings.Join(newSongData.Artists, " | ")
+
 	_, err = tx.Exec(`UPDATE gostream.song
 		SET name = $1, artists = $2, audioFormat = $3
 		WHERE songID = $4;`,
-		newSongData.Name, newSongData.Artists, newSongData.AudioFormat, newSongData.SongID)
+		newSongData.Name, artists, newSongData.AudioFormat, newSongData.SongID)
 	if err != nil {
 		fmt.Printf("Updating song data failed: %v\n", err)
 		return err
