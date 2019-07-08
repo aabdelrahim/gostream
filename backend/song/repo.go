@@ -142,8 +142,7 @@ func (r Repo) GetMulti(ctx context.Context, name string) ([]*Song, error) {
 
 // Get returns the song data for the single song with matching songID
 func (r Repo) Get(ctx context.Context, songID string) (*Song, error) {
-	fmt.Printf(">>> Add Repo Method called <<<\n\n")
-
+	fmt.Printf(">>> Get Repo Method called <<<\n\n")
 	tx, err := r.db.Begin()
 	if err != nil {
 		fmt.Printf("Creating DB transaction failed\n")
