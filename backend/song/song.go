@@ -23,7 +23,8 @@ type Server struct {
 func (s Server) Add(ctx context.Context, req *pb.AddSongRequest) (*pb.Empty, error) {
 	if req == nil {
 		fmt.Printf("Request was empty\n")
-		return &pb.Empty{}, nil
+		err := status.Error(codes.FailedPrecondition, "Request was empty")
+		return &pb.Empty{}, err
 	}
 	fmt.Printf(">>> Add Song Request Alert <<<\n")
 
@@ -50,7 +51,8 @@ func (s Server) Add(ctx context.Context, req *pb.AddSongRequest) (*pb.Empty, err
 func (s Server) Get(ctx context.Context, req *pb.GetSongRequest) (*pb.GetSongResponse, error) {
 	if req == nil {
 		fmt.Printf("Request was empty\n")
-		return nil, nil
+		err := status.Error(codes.FailedPrecondition, "Request was empty")
+		return nil, err
 	}
 
 	fmt.Printf(">>>>> Get Song Request Alert <<<<<\n")
@@ -118,7 +120,8 @@ func (s Server) Update(ctx context.Context, req *pb.UpdateSongRequest) (*pb.Empt
 func (s Server) Delete(ctx context.Context, req *pb.DeleteSongRequest) (*pb.Empty, error) {
 	if req == nil {
 		fmt.Printf("Request was empty\n")
-		return &pb.Empty{}, nil
+		err := status.Error(codes.FailedPrecondition, "Request was empty")
+		return &pb.Empty{}, err
 	}
 
 	if req.SongID == "" {
