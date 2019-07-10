@@ -24,9 +24,9 @@ func main() {
 	defer conn.Close()
 	client := pb.NewSongServiceClient(conn)
 	// addSong(context.Background(), client, "testfile", "mp3", []string{}, "newSong")
-	// getSong(context.Background(), client, "newSong", []string{}, "")
+	getSong(context.Background(), client, "newSong", []string{}, "")
 	// updateSong(context.Background(), client, "3", "testSong1", "testfile", []string{}, "mp3")
-	deleteSong(context.Background(), client, "3")
+	// deleteSong(context.Background(), client, "3")
 }
 
 func addSong(ctx context.Context, client pb.SongServiceClient, songName string, filename string, audioFormat string, artists []string) {
