@@ -2,10 +2,14 @@ syntax = "proto3";
 
 package songservice;
 
+import "google/api/annotations.proto";
+
 service SongService {
     rpc Add(AddSongRequest) returns(Empty) {}
     rpc Update(UpdateSongRequest) returns(Empty) {}
-    rpc Get(GetSongRequest) returns(GetSongResponse) {}
+    rpc Get(GetSongRequest) returns(GetSongResponse) {
+        option (google.api.http) = { get: "/v1/Get/{name}" };
+    }
     rpc Delete(DeleteSongRequest) returns(Empty) {}
 }
 
